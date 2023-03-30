@@ -1,14 +1,18 @@
 <div class="container-fluid">
-  <div class="row mb-3">
-    <div class="col-12 p-0">
-      <app-header></app-header>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-4">
-      <app-sidebar></app-sidebar>
-    </div>
-    <div class="col-8">
-      <app-body></app-body>
-    </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Nota</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students" [ngClass]="{'table-success': isApproved(student), 'table-danger': !isApproved(student)}">
+        <th scope="row">{{ student.id }}</th>
+        <td>{{ student.name }}</td>
+        <td>{{ student.grade }}</td>
+      </tr>
+    </tbody>
+  </table>
   </div>

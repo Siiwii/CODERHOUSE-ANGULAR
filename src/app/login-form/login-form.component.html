@@ -1,0 +1,34 @@
+<div class="container p-3">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-signin">
+                <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+                <label for="inputEmail" class="sr-only">Dirección de mail</label>
+                <input type="email" id="inputEmail" class="form-control" placeholder="mail@ejemplo.com"
+                    formControlName="email" required autofocus>
+                <div class="invalid-feedback d-block text-danger"
+                    *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
+                    <div *ngIf="loginForm.controls['email'].errors?.['required']">Ingresa tu mail por favor.</div>
+                    <div *ngIf="loginForm.controls['email'].errors?.['email']">Formato de mail inválido.</div>
+                </div>
+
+                <label for="inputPassword" class="sr-only">Contraseña</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña"
+                    formControlName="password" required>
+                <div class="invalid-feedback d-block text-danger"
+                    *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+                    <div *ngIf="loginForm.controls['password'].errors?.['required']">Ingresa tu contraseña por favor.</div>
+                    <div *ngIf="loginForm.controls['password'].errors?.['minlength']">La contraseña debe tener por lo menos 6 caracteres.</div>
+                </div>
+
+                <div *ngIf="loginForm.valid && loginForm.dirty" class="text-success">
+                    El formulario es válido!</div>
+                <button class="btn btn-lg btn-primary btn-block mt-3" type="submit" [disabled]="!loginForm.valid">Ingresar</button>
+            </form>
+            <div class="alert alert-success mt-3" role="alert" *ngIf="alertMessage">
+                {{ alertMessage }}
+            </div>
+
+        </div>
+    </div>
+</div>

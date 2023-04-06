@@ -1,18 +1,1 @@
-<div class="container-fluid">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Nota</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let student of students" [ngClass]="{'table-success': isApproved(student), 'table-danger': !isApproved(student)}">
-        <th scope="row">{{ student.id }}</th>
-        <td>{{ student.name }}</td>
-        <td>{{ student.grade }}</td>
-      </tr>
-    </tbody>
-  </table>
-  </div>
+<app-login-form></app-login-form>

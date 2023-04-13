@@ -1,0 +1,51 @@
+<h1 mat-dialog-title>ABM Alumnos</h1>
+<div mat-dialog-content>
+    <form class="grid formgrid" [formGroup]="alumnosForm">
+        <!-- CONTROL DE NOMBRE -->
+
+        <div class="col-12 field">
+            <mat-form-field class="w-full">
+                <mat-label>Nombre</mat-label>
+                <input [formControl]="alumnosForm.controls['nombre']" type="text" matInput>
+                <mat-error *ngIf="alumnosForm.controls['nombre'].hasError('required')">El nombre es
+                    requerido</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 field">
+            <mat-form-field class="w-full">
+                <mat-label>Apellido</mat-label>
+                <input [formControl]="alumnosForm.controls['apellido']" type="text" matInput>
+                <mat-error *ngIf="alumnosForm.controls['apellido'].hasError('required')">El apellido es
+                    requerido</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 field">
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input matInput [matDatepicker]="picker"
+                    (dateChange)="alumnosForm.controls['fecha_nacimiento'].setValue($event.value)">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="alumnosForm.controls['fecha_nacimiento'].hasError('required')">La fecha de nacimiento
+                    es
+                    requerida</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 field">
+            <mat-form-field appearance="fill">
+                <mat-label>Cursos</mat-label>
+                <mat-select [formControl]="alumnosForm.controls['curso']" multiple>
+                    <mat-option *ngFor="let curso of cursos" [value]="curso">{{curso}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <div mat-dialog-actions>
+            <button mat-button mat-dialog-close>Cancelar</button>
+            <button (click)="guardar()" mat-button>Guardar</button>
+        </div>

@@ -1,0 +1,14 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <p>NAVBAR</p>
+    </mat-drawer>
+    <mat-toolbar color="primary">
+        <button mat-icon-button (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span>Preentrega 1 Proyecto Final - Juan Cruz Rodriguez</span>
+    </mat-toolbar>
+
+    <app-tables></app-tables>
+
+</mat-drawer-container>

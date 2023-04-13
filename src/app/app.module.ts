@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { BodyComponent } from './body/body.component';
-import { LoginFormComponent } from './login-form/login-form.component';
+import { BodyComponent } from './pages/body/body.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { DashboardModule } from './dashboard/dashboard.module';
+import { LoginFormModule } from './login-form/login-form.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    SidebarComponent,
     BodyComponent,
-    LoginFormComponent
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule
+    BrowserAnimationsModule,
+    DashboardModule,
+    LoginFormModule
   ],
   providers: [],
   bootstrap: [AppComponent]

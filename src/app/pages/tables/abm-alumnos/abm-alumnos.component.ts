@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-abm-alumnos',
@@ -8,7 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./abm-alumnos.component.css']
 })
 
-export class AbmAlumnosComponent {
+export class AbmAlumnosComponent implements OnInit{
 
   alumnosForm = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
@@ -17,9 +17,27 @@ export class AbmAlumnosComponent {
     curso: new FormControl('', [Validators.required]),
   })
 
+  alumno: any;
+
   cursos: string[] = ['Frontend', 'Backend', 'Databases', 'Marketing']
-  
-  constructor(private dialogRef: MatDialogRef<AbmAlumnosComponent>) {}
+
+  constructor(
+    private dialogRef: MatDialogRef<AbmAlumnosComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: any
+  ) { }
+
+
+  ngOnInit(): void {
+    if (this.data) {
+      this.alumno = this.data.alumno;
+      this.alumnosForm.patchValue({
+        nombre: this.alumno.nombre,
+        apellido: this.alumno.apellido,
+        fecha_nacimiento: this.alumno.fecha_nacimiento,
+        curso: this.alumno.curso
+      });
+    }
+  }
 
   guardar(): void {
     if (this.alumnosForm.valid) {
@@ -28,7 +46,7 @@ export class AbmAlumnosComponent {
         apellido: this.alumnosForm.get('apellido')?.value,
         fecha_nacimiento: this.alumnosForm.get('fecha_nacimiento')?.value,
         curso: this.alumnosForm.get('curso')?.value
-      };      
+      };
       this.dialogRef.close(nuevoAlumno);
     } else {
       this.alumnosForm.markAllAsTouched();

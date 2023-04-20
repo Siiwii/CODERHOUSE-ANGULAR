@@ -3,49 +3,38 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AbmAlumnosComponent } from './abm-alumnos/abm-alumnos.component';
 import { MatDialog } from '@angular/material/dialog';
-
-
-export interface Estudiante {
-  id: number;
-  nombre: string;
-  apellido: string;
-  fecha_nacimiento: string;
-  curso: string[];
-}
+import { EstudiantesService, Estudiante } from 'src/app/services/estudiantes.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-tables',
   templateUrl: './tables.component.html',
   styleUrls: ['./tables.component.css'],
 })
-
 export class TablesComponent implements AfterViewInit {
-
-  estudiantes: Estudiante[] = [
-    { id: 1, nombre: 'Juan', apellido: 'Sosa', fecha_nacimiento: '30/5/2000', curso: ['Frontend', 'Marketing'] },
-    { id: 2, nombre: 'Sofía', apellido: 'García', fecha_nacimiento: '02/04/1998', curso: ['Backend', 'Databases'] },
-    { id: 3, nombre: 'Luis', apellido: 'Martínez', fecha_nacimiento: '15/12/1987', curso: ['Marketing'] },
-    { id: 4, nombre: 'Ana', apellido: 'González', fecha_nacimiento: '07/08/1994', curso: ['Databases'] },
-    { id: 5, nombre: 'Diego', apellido: 'Rodríguez', fecha_nacimiento: '22/11/1991', curso: ['Marketing', 'Frontend'] },
-    { id: 6, nombre: 'Carla', apellido: 'Fernández', fecha_nacimiento: '18/06/1998', curso: ['Frontend', 'Backend'] },
-    { id: 7, nombre: 'Mateo', apellido: 'Hernández', fecha_nacimiento: '03/09/1993', curso: ['Frontend'] },
-    { id: 8, nombre: 'Valentina', apellido: 'López', fecha_nacimiento: '14/03/1990', curso: ['Backend', 'Databases'] },
-  ];
-
-  dataSource = new MatTableDataSource(this.estudiantes);
+  dataSource = new MatTableDataSource<Estudiante>();
   displayedColumns: string[] = ['id', 'nombreCompleto', 'fecha_nacimiento', 'curso', 'opciones'];
 
-  constructor(private matDialog: MatDialog) {
+  constructor(
+    private matDialog: MatDialog,
+    private estudiantesService: EstudiantesService,
+    private datePipe: DatePipe
+  ) {
     this.sort = new MatSort();
+
+    this.estudiantesService.getStudents().subscribe((estudiantes) => {
+      this.dataSource.data = estudiantes.map((estudiante) => ({
+        ...estudiante,
+        fecha_nacimiento: this.datePipe.transform(estudiante.fecha_nacimiento, 'MM/dd/yyyy'),
+      }));
+    });
   }
 
   @ViewChild(MatSort) sort: MatSort;
 
-
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
-
 
   applyFilter(ev: Event): void {
     const inputValue = (ev.target as HTMLInputElement).value;
@@ -53,52 +42,35 @@ export class TablesComponent implements AfterViewInit {
   }
 
   abrirABMAlumnos(): void {
-    const dialog = this.matDialog.open(AbmAlumnosComponent)
+    const dialog = this.matDialog.open(AbmAlumnosComponent);
     dialog.afterClosed().subscribe((valor) => {
       if (valor) {
         const nuevoAlumno = {
           ...valor,
-          fecha_nacimiento: new Date(valor.fecha_nacimiento).toLocaleDateString('es-AR')
+          fecha_nacimiento: this.datePipe.transform(valor.fecha_nacimiento, 'MM/dd/yyyy'),
         };
-        this.dataSource.data = [
-          ...this.dataSource.data,
-          {
-            ...nuevoAlumno,
-            id: this.dataSource.data.length + 1
-          }
-        ]
+        this.estudiantesService.addStudent(nuevoAlumno);
       }
-    })
+    });
   }
 
   editarAlumno(row: Estudiante): void {
     const dialog = this.matDialog.open(AbmAlumnosComponent, {
-      data: { alumno: row }
+      data: { alumno: row },
     });
     dialog.afterClosed().subscribe((valor) => {
       if (valor) {
-        const indice = this.dataSource.data.findIndex((est) => est.id === row.id);
-        if (indice >= 0) {
-          const nuevoAlumno = { ...valor, fecha_nacimiento: new Date(valor.fecha_nacimiento).toLocaleDateString('es-AR') };
-          this.dataSource.data[indice] = {
-            ...nuevoAlumno,
-            id: row.id
-          };
-          this.dataSource._updateChangeSubscription();
-        }
+        const estudianteActualizado = {
+          ...valor,
+          fecha_nacimiento: this.datePipe.transform(valor.fecha_nacimiento, 'MM/dd/yyyy'),
+          id: row.id,
+        };
+        this.estudiantesService.updateStudent(estudianteActualizado);
       }
     });
   }
 
-
-  eliminarAlumno(row: Estudiante): void {
-    const indice = this.dataSource.data.findIndex((est) => est.id === row.id);
-    if (indice >= 0) {
-      this.dataSource.data.splice(indice, 1);
-      this.dataSource._updateChangeSubscription();
-    }
+  eliminarAlumno(id: number): void {
+    this.estudiantesService.deleteStudent(id);
   }
-
-
-
 }

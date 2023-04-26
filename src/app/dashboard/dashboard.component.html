@@ -3,10 +3,16 @@
         <p>NAVBAR</p>
     </mat-drawer>
     <mat-toolbar color="primary">
-        <button mat-icon-button (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+        <button mat-icon-button (click)="drawer.toggle()" class="example-icon"
+            aria-label="Example icon-button with menu icon">
             <mat-icon>menu</mat-icon>
         </button>
-        <span>Preentrega 2 Proyecto Final - Juan Cruz Rodriguez</span>
+        <div class="d-flex w-100 justify-content-between align-items-center">
+            <div><span>Preentrega 2 Proyecto Final - Juan Cruz Rodriguez</span></div>
+            <div>
+                <h4>Bienvenido, {{ (authUser$ | async)?.nombre }}</h4>
+            </div>
+        </div>
     </mat-toolbar>
 
     <app-tables></app-tables>

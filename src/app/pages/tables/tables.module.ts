@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { TablesComponent } from './tables.component';
 
 import { MatTableModule } from '@angular/material/table';
@@ -31,6 +31,9 @@ import { PipesModule } from 'src/app/shared/pipes/pipes.module';
   ],
   exports: [
     TablesComponent
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class TablesModule { }

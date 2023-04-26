@@ -23,10 +23,12 @@ export class TablesComponent implements AfterViewInit {
     this.sort = new MatSort();
 
     this.estudiantesService.getStudents().subscribe((estudiantes) => {
-      this.dataSource.data = estudiantes.map((estudiante) => ({
-        ...estudiante,
-        fecha_nacimiento: this.datePipe.transform(estudiante.fecha_nacimiento, 'MM/dd/yyyy'),
-      }));
+      this.dataSource.data = estudiantes.map((estudiante: Estudiante) => {
+        const alumno: Estudiante = {
+          ...estudiante,
+        }
+        return alumno;
+      });
     });
   }
 
@@ -45,9 +47,10 @@ export class TablesComponent implements AfterViewInit {
     const dialog = this.matDialog.open(AbmAlumnosComponent);
     dialog.afterClosed().subscribe((valor) => {
       if (valor) {
-        const nuevoAlumno = {
+        const estudiantes = this.dataSource.data;
+        const nuevoAlumno: Estudiante = {
           ...valor,
-          fecha_nacimiento: this.datePipe.transform(valor.fecha_nacimiento, 'MM/dd/yyyy'),
+          id: estudiantes.length +1,
         };
         this.estudiantesService.addStudent(nuevoAlumno);
       }

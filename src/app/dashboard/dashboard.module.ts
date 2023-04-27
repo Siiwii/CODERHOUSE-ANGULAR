@@ -7,7 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { TablesModule } from '../pages/tables/tables.module';
+import { TablesModule } from './pages/tables/tables.module';
 
 
 @NgModule({

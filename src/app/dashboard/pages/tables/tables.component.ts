@@ -3,7 +3,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AbmAlumnosComponent } from './abm-alumnos/abm-alumnos.component';
 import { MatDialog } from '@angular/material/dialog';
-import { EstudiantesService, Estudiante } from 'src/app/services/estudiantes.service';
+import { EstudiantesService, Estudiante } from 'src/app/dashboard/pages/tables/services/estudiantes.service';
 import { DatePipe } from '@angular/common';
 
 @Component({

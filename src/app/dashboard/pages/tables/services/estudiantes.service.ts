@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 
 export interface Estudiante {
   id: number;
@@ -28,6 +28,13 @@ export class EstudiantesService {
 
   getStudents() {
     return this.estudiantes$.asObservable();
+  }
+
+  getStudentsById(id:number): Observable<Estudiante | undefined>{
+    return this.estudiantes$.asObservable()
+    .pipe(
+      map((alumnos) => alumnos.find((a) => a.id === id ))
+    )
   }
 
   addStudent(estudiante: Estudiante) {

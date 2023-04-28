@@ -1,1 +1,43 @@
-<p>abm-cursos works!</p>
+<h1 mat-dialog-title>ABM Cursos</h1>
+<div mat-dialog-content>
+    <form class="grid formgrid" [formGroup]="cursoForm">
+
+        <div class="col-12 field">
+            <mat-form-field class="w-full">
+                <mat-label>Nombre</mat-label>
+                <input [formControl]="cursoForm.controls['nombre']" type="text" matInput>
+                <mat-error *ngIf="cursoForm.controls['nombre'].hasError('required')">El nombre es
+                    requerido</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 field">
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha de inicio</mat-label>
+                <input matInput [matDatepicker]="pickerInicio"
+                    (dateChange)="cursoForm.controls['fecha_inicio'].setValue($event.value)">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+                <mat-datepicker #pickerInicio></mat-datepicker>
+                <mat-error *ngIf="cursoForm.controls['fecha_inicio'].hasError('required')">La fecha de inicio es
+                    requerida</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 field">
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha de finalización</mat-label>
+                <input matInput [matDatepicker]="pickerFin"
+                    (dateChange)="cursoForm.controls['fecha_fin'].setValue($event.value)">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFin></mat-datepicker>
+                <mat-error *ngIf="cursoForm.controls['fecha_fin'].hasError('required')">La fecha de finalización es
+                    requerida</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions>
+            <button mat-button mat-dialog-close>Cancelar</button>
+            <button (click)="guardar()" mat-button>Guardar</button>
+        </div>

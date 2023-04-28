@@ -8,23 +8,10 @@ import { LoginComponent } from './auth/pages/login/login.component';
 
 const routes: Routes = [
   {
+    // http://localhost:XXXX/dashboard
     path: 'dashboard',
     component: DashboardComponent,
-    children: [
-      {
-        path: 'estudiantes',
-        children: [
-          {
-            path: '',
-            component: TablesComponent,
-          },
-          // {
-          //   path: '/:id',
-          //   component: AlumnoDetalleComponent
-          // }
-        ]
-      }
-    ]
+    loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
   },
   {
     path: 'auth',

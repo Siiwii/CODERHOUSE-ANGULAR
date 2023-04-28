@@ -60,13 +60,13 @@ export class CursosComponent implements AfterViewInit {
 
   editarCurso(row: Curso): void {
     const dialog = this.matDialog.open(AbmCursosComponent, {
-      data: { alumno: row },
+      data: { curso: row },
     });
     dialog.afterClosed().subscribe((valor) => {
       if (valor) {
         const cursoActualizado = {
           ...valor,
-          fecha_nacimiento: this.datePipe.transform(valor.fecha_nacimiento, 'dd/MM/yyyy'),
+          // fecha_nacimiento: this.datePipe.transform(valor.fecha_nacimiento, 'dd/MM/yyyy'),
           id: row.id,
         };
         this.cursosService.updateCourse(cursoActualizado);

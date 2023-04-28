@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AbmAlumnosModule } from './abm-alumnos/abm-alumnos.module';
 import { PipesModule } from 'src/app/shared/pipes/pipes.module';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -27,7 +28,13 @@ import { PipesModule } from 'src/app/shared/pipes/pipes.module';
     MatIconModule,
     MatButtonModule,
     AbmAlumnosModule,
-    PipesModule
+    PipesModule,
+    RouterModule.forChild([
+      {
+        path: '',
+        component: TablesComponent
+      },
+    ])
   ],
   exports: [
     TablesComponent

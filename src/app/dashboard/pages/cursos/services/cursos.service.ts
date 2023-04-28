@@ -56,7 +56,7 @@ export class CursosService {
     this.cursos$.next([...currentCourses, course]);
   }
 
-  updateStudent(updatedCourse: Curso) {
+  updateCourse(updatedCourse: Curso) {
     const currentCourses = this.cursos$.getValue();
     const updatedCourses = currentCourses.map(curso => {
       if (curso.id === updatedCourse.id) {
@@ -67,7 +67,7 @@ export class CursosService {
     this.cursos$.next(updatedCourses);
   }
 
-  deleteCourses(id: number) {
+  deleteCourse(id: number) {
     const currentCourses = this.cursos$.getValue();
     const updatedCourses = currentCourses.filter(curso => curso.id !== id);
     this.cursos$.next(updatedCourses);

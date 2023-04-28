@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AbmCursosModule } from './abm-cursos/abm-cursos.module';
 import { PipesModule } from 'src/app/shared/pipes/pipes.module';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -27,7 +28,13 @@ import { PipesModule } from 'src/app/shared/pipes/pipes.module';
     MatIconModule,
     MatButtonModule,
     AbmCursosModule,
-    PipesModule
+    PipesModule,
+    RouterModule.forChild([
+      {
+        path: '',
+        component: CursosComponent
+      }
+    ])
   ],
   exports: [
     CursosComponent

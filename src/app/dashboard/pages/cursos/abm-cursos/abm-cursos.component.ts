@@ -26,8 +26,8 @@ export class AbmCursosComponent {
     if (data) {
       const cursoParaEditar = data.curso;
       this.nombreControl.setValue(cursoParaEditar.nombre);
-      this.fechaInicioControl.setValue(cursoParaEditar.fecha_inicio);
-      this.fechaFinControl.setValue(cursoParaEditar.fecha_fin);
+      this.fechaInicioControl.setValue(cursoParaEditar.fecha_inicio.toISOString());
+      this.fechaFinControl.setValue(cursoParaEditar.fecha_fin.toISOString());
     }
   }
 

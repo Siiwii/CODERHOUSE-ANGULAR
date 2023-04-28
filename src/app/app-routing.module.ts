@@ -2,13 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TablesComponent } from './dashboard/pages/tables/tables.component';
 import { AuthComponent } from './auth/auth.component';
-import { LoginComponent } from './auth/pages/login/login.component';
 
 const routes: Routes = [
   {
-    // http://localhost:XXXX/dashboard
     path: 'dashboard',
     component: DashboardComponent,
     loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
@@ -16,18 +13,14 @@ const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
-    children: [
-      {
-        path: 'login',
-        component: LoginComponent,
-      }
-    ]
+    // loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: '**',
     redirectTo: 'dashboard',
   }
 ]
+
 
 @NgModule({
   imports: [

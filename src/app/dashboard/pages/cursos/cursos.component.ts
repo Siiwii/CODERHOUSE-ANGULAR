@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AbmCursosComponent } from './abm-cursos/abm-cursos.component';
@@ -6,15 +6,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { CursosService } from 'src/app/dashboard/pages/cursos/services/cursos.service';
 import { Curso } from './models';
 import { DatePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cursos',
   templateUrl: './cursos.component.html',
   styleUrls: ['./cursos.component.css'],
 })
-export class CursosComponent implements AfterViewInit {
+export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Curso>();
   displayedColumns: string[] = ['id', 'nombre', 'fecha_inicio', 'fecha_fin', 'opciones'];
+
+
+  cursosSuscription: Subscription | null = null;
 
   constructor(
     private matDialog: MatDialog,
@@ -22,17 +26,21 @@ export class CursosComponent implements AfterViewInit {
     private datePipe: DatePipe
   ) {
     this.sort = new MatSort();
+  }
 
-    this.cursosService.getCursos().subscribe((cursos) => {
-      this.dataSource.data = cursos.map((curso: Curso) => {
-        const course: Curso = {
-          ...curso,
-        }
-        return course;
-      });
+
+  ngOnInit(): void {
+    this.cursosSuscription = this.cursosService.obtenerCursos().subscribe({
+      next: (cursos) => {
+        this.dataSource.data = cursos;
+      },
     });
   }
 
+  ngOnDestroy(): void {
+    this.cursosSuscription?.unsubscribe();
+  
+  }
   @ViewChild(MatSort) sort: MatSort;
 
   ngAfterViewInit(): void {
@@ -51,7 +59,7 @@ export class CursosComponent implements AfterViewInit {
         const cursos = this.dataSource.data;
         const nuevoCurso: Curso = {
           ...valor,
-          id: cursos.length +1,
+          id: cursos.length + 1,
         };
         this.cursosService.addCourse(nuevoCurso);
       }

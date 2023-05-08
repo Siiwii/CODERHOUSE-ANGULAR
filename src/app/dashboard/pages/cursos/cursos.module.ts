@@ -36,9 +36,6 @@ import { RouterModule } from '@angular/router';
       }
     ])
   ],
-  exports: [
-    CursosComponent
-  ],
   providers: [
     DatePipe
   ]

@@ -1,0 +1,13 @@
+{
+    "usuarios": [
+        {
+            "id": 1,
+            "nombre": "Juan Cruz",
+            "apellido": "Rodriguez",
+            "email": "siwi@mail.com",
+            "password": "123456",
+            "token": "hjsdfJHFDSAFMsaDsan12sdanjjadashj3FDBEWH",
+            "role": "admin"
+        }
+    ]
+}

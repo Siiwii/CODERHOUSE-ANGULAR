@@ -1,35 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, mergeMap, take, tap } from 'rxjs';
-import { Curso } from '../models';
 import { HttpClient } from '@angular/common/http';
 import { enviroment } from 'src/environments/environments';
-
-const CURSOS_MOCKS: Curso[] = [
-  {
-    id: 1,
-    nombre: 'Frontend',
-    fecha_inicio: new Date(),
-    fecha_fin: new Date(),
-  },
-  {
-    id: 2,
-    nombre: 'Marketing',
-    fecha_inicio: new Date(),
-    fecha_fin: new Date(),
-  },
-  {
-    id: 3,
-    nombre: 'Backend',
-    fecha_inicio: new Date(),
-    fecha_fin: new Date(),
-  },
-  {
-    id: 4,
-    nombre: 'Databases',
-    fecha_inicio: new Date(),
-    fecha_fin: new Date(),
-  },
-];
+import { Curso, CursoWithSubject } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -48,11 +21,18 @@ export class CursosService {
   }
 
   obtenerCursos(): Observable<Curso[]> {
-    return this.httpClient.get<Curso[]>(`${enviroment.apiBaseUrl}/cursos`)
+    return this.httpClient
+    .get<Curso[]>(`${enviroment.apiBaseUrl}/courses?_expand=subject`)
       .pipe(
         tap((cursos) => this.cursos$.next(cursos)),
         mergeMap(() => this.cursos$.asObservable())
       );
+  }
+
+  obtenerCursosWithSubject(): Observable<CursoWithSubject[]> {
+    return this.httpClient.get<CursoWithSubject[]>(
+      `${enviroment.apiBaseUrl}/courses?_expand=subject`
+    );
   }
 
   getCursoById(cursoId: number): Observable<Curso | undefined> {

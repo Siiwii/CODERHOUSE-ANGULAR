@@ -3,15 +3,15 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AbmAlumnosComponent } from './abm-alumnos/abm-alumnos.component';
 import { MatDialog } from '@angular/material/dialog';
-import { EstudiantesService, Estudiante } from 'src/app/dashboard/pages/tables/services/estudiantes.service';
+import { EstudiantesService, Estudiante } from 'src/app/dashboard/pages/alumnos/services/estudiantes.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-tables',
-  templateUrl: './tables.component.html',
-  styleUrls: ['./tables.component.css'],
+  selector: 'app-alumnos',
+  templateUrl: './alumnos.component.html',
+  styleUrls: ['./alumnos.component.css'],
 })
-export class TablesComponent implements AfterViewInit {
+export class AlumnosComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<Estudiante>();
   displayedColumns: string[] = ['id', 'nombreCompleto', 'fecha_nacimiento', 'curso', 'opciones'];
 

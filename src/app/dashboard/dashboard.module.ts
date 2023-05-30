@@ -8,8 +8,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { TablesModule } from './pages/tables/tables.module';
 import { RouterModule } from '@angular/router';
+import { AbmAlumnosModule } from './pages/alumnos/abm-alumnos/abm-alumnos.module';
 
 
 @NgModule({
@@ -22,12 +22,12 @@ import { RouterModule } from '@angular/router';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    TablesModule,
+    AbmAlumnosModule,
     MatListModule,
     RouterModule.forChild([
       {
         path: 'estudiantes',
-        loadChildren: () => import('./pages/tables/tables.module').then((m) => m.TablesModule)
+        loadChildren: () => import('./pages/alumnos/alumnos.module').then((m) => m.AlumnosModule)
       },
       {
         path: 'cursos',

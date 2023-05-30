@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Curso, CursoWithSubject } from '../models';
 
 @Component({
   selector: 'app-abm-cursos',
@@ -21,13 +22,14 @@ export class AbmCursosComponent {
 
   constructor(
     private dialogRef: MatDialogRef<AbmCursosComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any,
+    @Inject(MAT_DIALOG_DATA) private data: { cursoWithSubject: CursoWithSubject },
   ) {
-    if (data) {
-      const cursoParaEditar = data.curso;
-      this.nombreControl.setValue(cursoParaEditar.nombre);
-      this.fechaInicioControl.setValue(cursoParaEditar.fecha_inicio.toISOString());
-      this.fechaFinControl.setValue(cursoParaEditar.fecha_fin.toISOString());
+    if (data && data.cursoWithSubject) {
+      const cursoParaEditar = data.cursoWithSubject;
+      const subjectName = cursoParaEditar.subject.nombre;
+      this.nombreControl.setValue(subjectName);
+      this.fechaInicioControl.setValue(new Date(cursoParaEditar.fecha_inicio).toISOString());
+      this.fechaFinControl.setValue(new Date(cursoParaEditar.fecha_fin).toISOString());
     }
   }
 

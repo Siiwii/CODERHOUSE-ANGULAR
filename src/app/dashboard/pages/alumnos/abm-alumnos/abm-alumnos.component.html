@@ -24,7 +24,7 @@
         <div class="col-12 field">
             <mat-form-field appearance="fill">
                 <mat-label>Fecha de nacimiento</mat-label>
-                <input matInput [matDatepicker]="picker"
+                <input [formControl]="alumnosForm.controls['fecha_nacimiento']" matInput [matDatepicker]="picker"
                     (dateChange)="alumnosForm.controls['fecha_nacimiento'].setValue($event.value)">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

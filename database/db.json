@@ -1,13 +1,152 @@
 {
-    "usuarios": [
-        {
-            "id": 1,
-            "nombre": "Juan Cruz",
-            "apellido": "Rodriguez",
-            "email": "siwi@mail.com",
-            "password": "123456",
-            "token": "hjsdfJHFDSAFMsaDsan12sdanjjadashj3FDBEWH",
-            "role": "admin"
-        }
-    ]
+  "users": [
+    {
+      "id": 1,
+      "nombre": "Juan Cruz",
+      "apellido": "Rodriguez",
+      "email": "siwi@mail.com",
+      "password": "123456",
+      "token": "hjsdfJHFDSAFMsaDsan12sdanjjadashj3FDBEWH",
+      "role": "admin"
+    },
+    {
+      "nombre": "Facundo",
+      "apellido": "Perez",
+      "email": "juan@email.com",
+      "password": "123456",
+      "token": "nmdsgfjhuMDKSAFJASDK327SJDKANjsadnsah",
+      "role": "user",
+      "id": 4
+    }
+  ],
+  "courses": [
+    {
+      "id": 1,
+      "subjectId": 1,
+      "fecha_fin": "2023-04-27T01:27:59.631Z",
+      "fecha_inicio": "2023-04-27T01:27:59.631Z"
+    },
+    {
+      "id": 2,
+      "subjectId": 2,
+      "fecha_fin": "2023-04-27T01:27:59.631Z",
+      "fecha_inicio": "2023-04-27T01:27:59.631Z"
+    },
+    {
+      "id": 3,
+      "subjectId": 3,
+      "fecha_fin": "2023-04-27T01:27:59.631Z",
+      "fecha_inicio": "2023-04-27T01:27:59.631Z"
+    },
+    {
+      "id": 4,
+      "subjectId": 4,
+      "fecha_fin": "2023-04-27T01:27:59.631Z",
+      "fecha_inicio": "2023-04-27T01:27:59.631Z"
+    },
+    {
+      "id": 4,
+      "subjectId": 4,
+      "fecha_fin": "2023-05-27T01:27:59.631Z",
+      "fecha_inicio": "2023-11-27T01:27:59.631Z"
+    }
+  ],
+  "subjects": [
+    {
+      "id": 1,
+      "nombre": "Frontend",
+      "description": "Curso de Angular con duración de 6 meses."
+    },
+    {
+      "id": 2,
+      "nombre": "Backend",
+      "description": "Curso de NodeJS y MongoDB con duración de 6 meses."
+    },
+    {
+      "id": 3,
+      "nombre": "Databases",
+      "description": "Curso de SQL con duración de 6 meses."
+    },
+    {
+      "id": 4,
+      "nombre": "Marketing",
+      "description": "Curso de Marketing Digital con duración de 4 meses."
+    }
+  ],
+  "inscriptions": [
+    {
+      "id": 2,
+      "subjectId": 2,
+      "studentId": 1,
+      "courseId": 2
+    },
+    {
+      "subjectId": 1,
+      "studentId": 3,
+      "courseId": 1,
+      "id": 3
+    },
+    {
+      "subjectId": 1,
+      "studentId": 3,
+      "courseId": 1,
+      "id": 4
+    },
+    {
+      "subjectId": 2,
+      "studentId": 1,
+      "courseId": 2,
+      "id": 5
+    }
+  ],
+  "students": [
+    {
+      "id": 1,
+      "nombre": "Juan",
+      "apellido": "Sosa",
+      "fecha_nacimiento": "2000-05-30T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "nombre": "Sofía",
+      "apellido": "García",
+      "fecha_nacimiento": "1998-04-02T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "nombre": "Luis",
+      "apellido": "Martínez",
+      "fecha_nacimiento": "1987-12-15T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "nombre": "Ana",
+      "apellido": "González",
+      "fecha_nacimiento": "1994-08-07T00:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "nombre": "Diego",
+      "apellido": "Rodríguez",
+      "fecha_nacimiento": "1991-11-22T00:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "nombre": "Carla",
+      "apellido": "Fernández",
+      "fecha_nacimiento": "1998-06-18T00:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "nombre": "Mateo",
+      "apellido": "Hernández",
+      "fecha_nacimiento": "1993-09-03T00:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "nombre": "Valentina",
+      "apellido": "López",
+      "fecha_nacimiento": "1990-03-14T00:00:00.000Z"
+    }
+  ]
 }

@@ -28,7 +28,7 @@ export class AuthService {
 
   login(formValue: LoginFormValue): void {
     this.httpClient.get<Usuario[]>(
-      `${enviroment.apiBaseUrl}/usuarios`,
+      `${enviroment.apiBaseUrl}/users`,
       {
         params: {
           ...formValue
@@ -57,7 +57,7 @@ export class AuthService {
   verificarToken(): Observable<boolean> {
     const token = localStorage.getItem('token');
     return this.httpClient.get<Usuario[]>(
-      `${enviroment.apiBaseUrl}/usuarios?token=${token}`,
+      `${enviroment.apiBaseUrl}/users?token=${token}`,
       {
         headers: new HttpHeaders({
           'Authorization': token || '',

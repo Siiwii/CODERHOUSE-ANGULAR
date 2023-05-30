@@ -14,7 +14,7 @@
         <div class="col-12 field">
             <mat-form-field appearance="fill">
                 <mat-label>Fecha de inicio</mat-label>
-                <input matInput [matDatepicker]="pickerInicio"
+                <input matInput [formControl]="fechaInicioControl" [matDatepicker]="pickerInicio"
                     (dateChange)="cursoForm.controls['fecha_inicio'].setValue($event.value)">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
@@ -27,7 +27,7 @@
         <div class="col-12 field">
             <mat-form-field appearance="fill">
                 <mat-label>Fecha de finalización</mat-label>
-                <input matInput [matDatepicker]="pickerFin"
+                <input [formControl]="fechaFinControl" matInput [matDatepicker]="pickerFin"
                     (dateChange)="cursoForm.controls['fecha_fin'].setValue($event.value)">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>

@@ -7,12 +7,13 @@
             <a [routerLink]="link.path" mat-list-item *ngFor="let link of links">
                 <mat-icon *ngIf="link.icon">{{ link.icon }}</mat-icon> {{ link.title }}
             </a>
-            <a mat-list-item>
+            <a mat-list-item (click)="logout()">
+                <mat-icon>logout</mat-icon>
                 Cerrar sesión
             </a>
         </mat-nav-list>
     </mat-drawer>
-    
+
     <mat-toolbar color="primary">
         <button mat-icon-button (click)="drawer.toggle()" class="example-icon"
             aria-label="Example icon-button with menu icon">

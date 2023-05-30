@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AbmCursosComponent } from './abm-cursos/abm-cursos.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CursosService } from 'src/app/dashboard/pages/cursos/services/cursos.service';
-import { Curso } from './models';
+import { Curso, CursoWithSubject } from './models';
 import { DatePipe } from '@angular/common';
 import { Subscription } from 'rxjs';
 
@@ -14,11 +14,18 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./cursos.component.css'],
 })
 export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
-  dataSource = new MatTableDataSource<Curso>();
-  displayedColumns: string[] = ['id', 'nombre', 'fecha_inicio', 'fecha_fin', 'opciones'];
+  dataSource = new MatTableDataSource();
+  displayedColumns: string[] = [
+    'id',
+    'nombre',
+    'fecha_inicio',
+    'fecha_fin',
+    'opciones'
+  ];
 
 
   cursosSuscription: Subscription | null = null;
+  cursosWithSubjectSuscription: Subscription | null = null;
 
   constructor(
     private matDialog: MatDialog,
@@ -30,17 +37,32 @@ export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngOnInit(): void {
+    this.subscribeToCursos();
+    this.subscribeToCursosWithSubject();
+  }
+
+  private subscribeToCursos(): void {
     this.cursosSuscription = this.cursosService.obtenerCursos().subscribe({
       next: (cursos) => {
         this.dataSource.data = cursos;
-      },
-    });
+      }
+    })
+  }
+
+  private subscribeToCursosWithSubject(): void {
+    this.cursosWithSubjectSuscription = this.cursosService.obtenerCursosWithSubject().subscribe({
+      next: (cursos) => {
+        this.dataSource.data = cursos;
+      }
+    })
   }
 
   ngOnDestroy(): void {
     this.cursosSuscription?.unsubscribe();
-  
+    this.cursosWithSubjectSuscription?.unsubscribe();
+
   }
+  
   @ViewChild(MatSort) sort: MatSort;
 
   ngAfterViewInit(): void {
@@ -60,21 +82,21 @@ export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
         const nuevoCurso: Curso = {
           ...valor,
           id: cursos.length + 1,
-        };
+        }
         this.cursosService.addCourse(nuevoCurso);
       }
     });
   }
 
-  editarCurso(row: Curso): void {
+  editarCurso(row: CursoWithSubject): void {
     const dialog = this.matDialog.open(AbmCursosComponent, {
-      data: { curso: row },
+      data: { cursoWithSubject: row },
     });
+  
     dialog.afterClosed().subscribe((valor) => {
       if (valor) {
         const cursoActualizado = {
           ...valor,
-          // fecha_nacimiento: this.datePipe.transform(valor.fecha_nacimiento, 'dd/MM/yyyy'),
           id: row.id,
         };
         this.cursosService.updateCourse(cursoActualizado);

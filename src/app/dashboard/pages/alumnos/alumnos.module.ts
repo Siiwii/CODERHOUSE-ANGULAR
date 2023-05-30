@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { TablesComponent } from './tables.component';
+import { AlumnosComponent } from './alumnos.component';
 
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    TablesComponent,
+    AlumnosComponent,
   ],
   imports: [
     CommonModule,
@@ -32,15 +32,15 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       {
         path: '',
-        component: TablesComponent
+        component: AlumnosComponent
       },
     ])
   ],
   exports: [
-    TablesComponent
+    AlumnosComponent
   ],
   providers: [
     DatePipe
   ]
 })
-export class TablesModule { }
+export class AlumnosModule { }

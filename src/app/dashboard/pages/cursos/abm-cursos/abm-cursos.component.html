@@ -1,12 +1,14 @@
-<h1 mat-dialog-title>ABM Cursos</h1>
+<h1 mat-dialog-title>Agregar Curso</h1>
 <div mat-dialog-content>
     <form class="grid formgrid" [formGroup]="cursoForm">
 
         <div class="col-12 field">
             <mat-form-field class="w-full">
                 <mat-label>Nombre</mat-label>
-                <input [formControl]="cursoForm.controls['nombre']" type="text" matInput>
-                <mat-error *ngIf="cursoForm.controls['nombre'].hasError('required')">El nombre es
+                <mat-select [formControl]="cursoForm.controls['subjectName']">
+                    <mat-option *ngFor="let subject of cursos" [value]="subject.subject.nombre">{{ subject.subject.nombre }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="cursoForm.controls['subjectName'].hasError('required')">El nombre es
                     requerido</mat-error>
             </mat-form-field>
         </div>

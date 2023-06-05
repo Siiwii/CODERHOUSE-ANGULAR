@@ -22,9 +22,9 @@
   "courses": [
     {
       "id": 1,
-      "subjectId": 1,
-      "fecha_fin": "2023-04-27T01:27:59.631Z",
-      "fecha_inicio": "2023-04-27T01:27:59.631Z"
+      "subjectId": 3,
+      "fecha_inicio": "2023-04-27T01:27:59.631Z",
+      "fecha_fin": "2023-04-27T01:27:59.631Z"
     },
     {
       "id": 2,
@@ -37,18 +37,6 @@
       "subjectId": 3,
       "fecha_fin": "2023-04-27T01:27:59.631Z",
       "fecha_inicio": "2023-04-27T01:27:59.631Z"
-    },
-    {
-      "id": 4,
-      "subjectId": 4,
-      "fecha_fin": "2023-04-27T01:27:59.631Z",
-      "fecha_inicio": "2023-04-27T01:27:59.631Z"
-    },
-    {
-      "id": 4,
-      "subjectId": 4,
-      "fecha_fin": "2023-05-27T01:27:59.631Z",
-      "fecha_inicio": "2023-11-27T01:27:59.631Z"
     }
   ],
   "subjects": [
@@ -78,45 +66,23 @@
       "id": 2,
       "subjectId": 2,
       "studentId": 1,
-      "courseId": 2
-    },
-    {
-      "subjectId": 1,
-      "studentId": 3,
-      "courseId": 1,
-      "id": 3
-    },
-    {
-      "subjectId": 1,
-      "studentId": 3,
-      "courseId": 1,
-      "id": 4
+      "courseId": 2,
+      "dateInscription": "2023-04-27T01:27:59.631Z"
     },
     {
       "subjectId": 2,
-      "studentId": 1,
+      "studentId": 4,
       "courseId": 2,
+      "dateInscription": "2023-06-04T21:33:34.980Z",
       "id": 5
     }
   ],
   "students": [
     {
-      "id": 1,
       "nombre": "Juan",
       "apellido": "Sosa",
-      "fecha_nacimiento": "2000-05-30T00:00:00.000Z"
-    },
-    {
-      "id": 2,
-      "nombre": "Sofía",
-      "apellido": "García",
-      "fecha_nacimiento": "1998-04-02T00:00:00.000Z"
-    },
-    {
-      "id": 3,
-      "nombre": "Luis",
-      "apellido": "Martínez",
-      "fecha_nacimiento": "1987-12-15T00:00:00.000Z"
+      "fecha_nacimiento": "2000-05-08T03:00:00.000Z",
+      "id": 1
     },
     {
       "id": 4,
@@ -125,16 +91,10 @@
       "fecha_nacimiento": "1994-08-07T00:00:00.000Z"
     },
     {
-      "id": 5,
-      "nombre": "Diego",
-      "apellido": "Rodríguez",
-      "fecha_nacimiento": "1991-11-22T00:00:00.000Z"
-    },
-    {
-      "id": 6,
       "nombre": "Carla",
       "apellido": "Fernández",
-      "fecha_nacimiento": "1998-06-18T00:00:00.000Z"
+      "fecha_nacimiento": "1993-10-20T03:00:00.000Z",
+      "id": 6
     },
     {
       "id": 7,
@@ -143,10 +103,10 @@
       "fecha_nacimiento": "1993-09-03T00:00:00.000Z"
     },
     {
-      "id": 8,
-      "nombre": "Valentina",
-      "apellido": "López",
-      "fecha_nacimiento": "1990-03-14T00:00:00.000Z"
+      "nombre": "Carlos",
+      "apellido": "Gardel",
+      "fecha_nacimiento": "2023-06-22T03:00:00.000Z",
+      "id": 5
     }
   ]
 }

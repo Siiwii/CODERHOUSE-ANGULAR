@@ -13,8 +13,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './cursos.component.html',
   styleUrls: ['./cursos.component.css'],
 })
+
 export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
-  dataSource = new MatTableDataSource();
+  dataSource = new MatTableDataSource<Curso>();
   displayedColumns: string[] = [
     'id',
     'nombre',
@@ -52,17 +53,22 @@ export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscribeToCursosWithSubject(): void {
     this.cursosWithSubjectSuscription = this.cursosService.obtenerCursosWithSubject().subscribe({
       next: (cursos) => {
+        console.log('Cursos with subject:', cursos);
+        cursos.forEach(curso => {
+          console.log('Curso subject:', curso.subject);
+        });
         this.dataSource.data = cursos;
       }
     })
   }
+  
 
   ngOnDestroy(): void {
     this.cursosSuscription?.unsubscribe();
     this.cursosWithSubjectSuscription?.unsubscribe();
 
   }
-  
+
   @ViewChild(MatSort) sort: MatSort;
 
   ngAfterViewInit(): void {
@@ -83,28 +89,46 @@ export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
           ...valor,
           id: cursos.length + 1,
         }
+        console.log(nuevoCurso);
         this.cursosService.addCourse(nuevoCurso);
       }
     });
   }
 
+
   editarCurso(row: CursoWithSubject): void {
     const dialog = this.matDialog.open(AbmCursosComponent, {
       data: { cursoWithSubject: row },
     });
-  
+    console.log(row);
     dialog.afterClosed().subscribe((valor) => {
+      console.log(valor);
       if (valor) {
-        const cursoActualizado = {
-          ...valor,
+        const cursoActualizado: Curso = {
           id: row.id,
+          subjectId: valor.subjectId,
+          fecha_inicio: valor.fecha_inicio,
+          fecha_fin: valor.fecha_fin,
         };
-        this.cursosService.updateCourse(cursoActualizado);
+        console.log(cursoActualizado);
+        this.cursosService.updateCourse(cursoActualizado).subscribe({
+          next: () => { },
+          error: (error) => {
+            console.error('Error updating alumno:', error);
+          }
+        });
       }
     });
-  }
+  }  
 
   eliminarCurso(id: number): void {
-    this.cursosService.deleteCourse(id);
+    this.cursosService.deleteCourse(id).subscribe({
+      next: () => {
+        this.dataSource.data = this.dataSource.data.filter(c => c.id !== id);
+      },
+      error: (error) => {
+        console.error('Error deleting curso:', error);
+      }
+    });
   }
 }

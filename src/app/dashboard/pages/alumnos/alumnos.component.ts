@@ -1,19 +1,22 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AbmAlumnosComponent } from './abm-alumnos/abm-alumnos.component';
 import { MatDialog } from '@angular/material/dialog';
-import { EstudiantesService, Estudiante } from 'src/app/dashboard/pages/alumnos/services/estudiantes.service';
+import { EstudiantesService } from 'src/app/dashboard/pages/alumnos/services/estudiantes.service';
 import { DatePipe } from '@angular/common';
+import { Estudiante } from './models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-alumnos',
   templateUrl: './alumnos.component.html',
   styleUrls: ['./alumnos.component.css'],
 })
-export class AlumnosComponent implements AfterViewInit {
+
+export class AlumnosComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Estudiante>();
-  displayedColumns: string[] = ['id', 'nombreCompleto', 'fecha_nacimiento', 'curso', 'opciones'];
+  displayedColumns: string[] = ['id', 'nombreCompleto', 'fecha_nacimiento', 'opciones'];
 
   constructor(
     private matDialog: MatDialog,
@@ -21,18 +24,23 @@ export class AlumnosComponent implements AfterViewInit {
     private datePipe: DatePipe
   ) {
     this.sort = new MatSort();
-
-    this.estudiantesService.getStudents().subscribe((estudiantes) => {
-      this.dataSource.data = estudiantes.map((estudiante: Estudiante) => {
-        const alumno: Estudiante = {
-          ...estudiante,
-        }
-        return alumno;
-      });
-    });
   }
 
+  studentsSubscription: Subscription | null = null;
+
   @ViewChild(MatSort) sort: MatSort;
+
+  ngOnInit(): void {
+    this.studentsSubscription = this.estudiantesService.getStudents().subscribe({
+      next: (estudiantes) => {
+        this.dataSource.data = estudiantes;
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.studentsSubscription?.unsubscribe();
+  }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
@@ -48,14 +56,21 @@ export class AlumnosComponent implements AfterViewInit {
     dialog.afterClosed().subscribe((valor) => {
       if (valor) {
         const estudiantes = this.dataSource.data;
+        const maxId = estudiantes.reduce((max, estudiante) => Math.max(max, estudiante.id), 0);
         const nuevoAlumno: Estudiante = {
           ...valor,
-          id: estudiantes.length +1,
+          id: maxId + 1,
         };
-        this.estudiantesService.addStudent(nuevoAlumno);
+        this.estudiantesService.addStudent(nuevoAlumno).subscribe({
+          next: () => {},
+          error: (error) => {
+            console.error('Error adding alumno:', error);
+          }
+        });
       }
     });
   }
+
 
   editarAlumno(row: Estudiante): void {
     const dialog = this.matDialog.open(AbmAlumnosComponent, {
@@ -65,15 +80,27 @@ export class AlumnosComponent implements AfterViewInit {
       if (valor) {
         const estudianteActualizado = {
           ...valor,
-          fecha_nacimiento: this.datePipe.transform(valor.fecha_nacimiento, 'MM/dd/yyyy'),
           id: row.id,
         };
-        this.estudiantesService.updateStudent(estudianteActualizado);
+        this.estudiantesService.updateStudent(estudianteActualizado).subscribe({
+          next: () => { },
+          error: (error) => {
+            console.error('Error updating alumno:', error);
+          }
+        });
       }
     });
   }
 
-  eliminarAlumno(id: number): void {
-    this.estudiantesService.deleteStudent(id);
+  eliminarAlumno(student: { id: number }): void {
+    const id = student.id;
+    this.estudiantesService.deleteStudent(id).subscribe({
+      next: () => {
+        this.dataSource.data = this.dataSource.data.filter(s => s.id !== id);
+      },
+      error: (error) => {
+        console.error('Error deleting alumno:', error);
+      }
+    });
   }
 }

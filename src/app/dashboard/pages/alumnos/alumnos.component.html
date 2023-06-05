@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="m-3">
-        <button (click)="abrirABMAlumnos()" color="primary" mat-flat-button>
+        <button (click)="abrirABMAlumnos()" mat-raised-button color="warn" mat-flat-button>
             <mat-icon>add</mat-icon>
             Agregar Alumno
         </button>
@@ -27,11 +27,6 @@
         <ng-container matColumnDef="fecha_nacimiento">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de nacimiento </th>
             <td mat-cell *matCellDef="let student"> {{student.fecha_nacimiento | date: 'dd/MM/yyyy'}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="curso">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cursos </th>
-            <td mat-cell *matCellDef="let student"> {{student.curso}} </td>
         </ng-container>
 
         <ng-container matColumnDef="opciones">

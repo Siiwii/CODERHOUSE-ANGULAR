@@ -24,8 +24,6 @@ export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
     'opciones'
   ];
 
-
-  cursosSuscription: Subscription | null = null;
   cursosWithSubjectSuscription: Subscription | null = null;
 
   constructor(
@@ -38,33 +36,19 @@ export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.subscribeToCursos();
     this.subscribeToCursosWithSubject();
-  }
-
-  private subscribeToCursos(): void {
-    this.cursosSuscription = this.cursosService.obtenerCursos().subscribe({
-      next: (cursos) => {
-        this.dataSource.data = cursos;
-      }
-    })
   }
 
   private subscribeToCursosWithSubject(): void {
     this.cursosWithSubjectSuscription = this.cursosService.obtenerCursosWithSubject().subscribe({
       next: (cursos) => {
-        console.log('Cursos with subject:', cursos);
-        cursos.forEach(curso => {
-          console.log('Curso subject:', curso.subject);
-        });
         this.dataSource.data = cursos;
       }
     })
   }
-  
+
 
   ngOnDestroy(): void {
-    this.cursosSuscription?.unsubscribe();
     this.cursosWithSubjectSuscription?.unsubscribe();
 
   }
@@ -85,41 +69,56 @@ export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
     dialog.afterClosed().subscribe((valor) => {
       if (valor) {
         const cursos = this.dataSource.data;
+        const maxId = Math.max(...cursos.map(c => c.id));
         const nuevoCurso: Curso = {
-          ...valor,
-          id: cursos.length + 1,
-        }
-        console.log(nuevoCurso);
-        this.cursosService.addCourse(nuevoCurso);
+          id: maxId + 1,
+          subjectId: valor.subjectName,
+          fecha_inicio: valor.fecha_inicio,
+          fecha_fin: valor.fecha_fin,
+        };
+        this.cursosService.addCourse(nuevoCurso).subscribe({
+          next: (createdCourse) => {
+            cursos.push(createdCourse);
+            this.dataSource.data = cursos;
+          },
+          error: (error) => {
+            console.error('Error creating curso:', error);
+          }
+        });
       }
     });
   }
+
+
 
 
   editarCurso(row: CursoWithSubject): void {
     const dialog = this.matDialog.open(AbmCursosComponent, {
       data: { cursoWithSubject: row },
     });
-    console.log(row);
     dialog.afterClosed().subscribe((valor) => {
-      console.log(valor);
       if (valor) {
         const cursoActualizado: Curso = {
           id: row.id,
-          subjectId: valor.subjectId,
+          subjectId: valor.subjectName,
           fecha_inicio: valor.fecha_inicio,
           fecha_fin: valor.fecha_fin,
         };
-        console.log(cursoActualizado);
         this.cursosService.updateCourse(cursoActualizado).subscribe({
-          next: () => { },
+          next: (updatedCourse) => {
+            const cursos = this.dataSource.data;
+            const cursoIndex = cursos.findIndex(c => c.id === updatedCourse.id);
+            cursos[cursoIndex] = updatedCourse;
+            this.dataSource.data = cursos;
+          },
           error: (error) => {
             console.error('Error updating alumno:', error);
           }
         });
       }
     });
-  }  
+  }
+
 
   eliminarCurso(id: number): void {
     this.cursosService.deleteCourse(id).subscribe({

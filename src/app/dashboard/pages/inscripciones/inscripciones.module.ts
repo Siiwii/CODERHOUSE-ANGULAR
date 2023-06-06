@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 import { InscripcionesDialogComponent } from './inscripciones-dialog/inscripciones-dialog.component';
 
 
@@ -23,7 +24,6 @@ import { InscripcionesDialogComponent } from './inscripciones-dialog/inscripcion
   declarations: [
     InscripcionesComponent,
     InscripcionesDialogComponent,
-    // InscripcionDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +36,7 @@ import { InscripcionesDialogComponent } from './inscripciones-dialog/inscripcion
     MatInputModule,
     MatTableModule,
     MatSelectModule,
+    MatSortModule,
     PipesModule,
     StoreModule.forFeature(inscripcionesFeature),
     EffectsModule.forFeature([InscripcionesEffects])

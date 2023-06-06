@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, mergeMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, mergeMap, switchMap, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { enviroment } from 'src/environments/environments';
 import { Curso, CursoWithSubject } from '../models';
+import { Subject } from '../../subjects/models';
 
 @Injectable({
   providedIn: 'root',
@@ -29,19 +30,19 @@ export class CursosService {
       );
   }
 
+  obtenerSubjects(): Observable<Subject[]> {
+    return this.http.get<Subject[]>(
+      `${enviroment.apiBaseUrl}/subjects`
+    );
+  }
+
+
   obtenerCursosWithSubject(): Observable<CursoWithSubject[]> {
     return this.http.get<CursoWithSubject[]>(
       `${enviroment.apiBaseUrl}/courses?_expand=subject`
-    ).pipe(
-      tap((cursos) => {
-        console.log('Cursos with subject:', cursos);
-        cursos.forEach(curso => {
-          console.log('Curso subject:', curso.subject);
-        });
-      })
-    );
+    )
   }
-  
+
 
   getCursoById(cursoId: number): Observable<Curso | undefined> {
     return this.cursos$.asObservable()
@@ -50,21 +51,29 @@ export class CursosService {
       )
   }
 
-  addCourse(course: Curso) {
-    console.log('Adding course:', course);
-    const currentCourses = this.cursos$.getValue();
-    this.cursos$.next([...currentCourses, course]);
+  addCourse(addedCourse: Curso): Observable<CursoWithSubject> {
+    return this.http.post<Curso>(`${enviroment.apiBaseUrl}/courses`, addedCourse)
+      .pipe(
+        switchMap((createdCourse) => this.http.get<CursoWithSubject>(`${enviroment.apiBaseUrl}/courses/${createdCourse.id}?_expand=subject`)),
+        tap((cursoWithSubject) => {
+          const currentCourses = this.cursos$.getValue();
+          currentCourses.push(cursoWithSubject);
+          this.cursos$.next(currentCourses);
+        })
+      );
   }
-  
-  updateCourse(updatedCourse: Curso): Observable<Curso> {
-    console.log('Updating course:', updatedCourse);
+
+
+  updateCourse(updatedCourse: Curso): Observable<CursoWithSubject> {
+
     return this.http.put<Curso>(`${enviroment.apiBaseUrl}/courses/${updatedCourse.id}`, updatedCourse)
       .pipe(
-        tap(() => {
+        switchMap(() => this.http.get<CursoWithSubject>(`${enviroment.apiBaseUrl}/courses/${updatedCourse.id}?_expand=subject`)),
+        tap((cursoWithSubject) => {
           const currentCourses = this.cursos$.getValue();
           const updatedCourses = currentCourses.map(curso => {
-            if (curso.id === updatedCourse.id) {
-              return updatedCourse;
+            if (curso.id === cursoWithSubject.id) {
+              return cursoWithSubject;
             }
             return curso;
           });
@@ -72,7 +81,8 @@ export class CursosService {
         })
       );
   }
-  
+
+
   deleteCourse(id: number) {
     return this.http.delete(
       `${enviroment.apiBaseUrl}/courses/${id}`

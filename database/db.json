@@ -22,7 +22,7 @@
   "courses": [
     {
       "id": 1,
-      "subjectId": 3,
+      "subjectId": 1,
       "fecha_inicio": "2023-04-27T01:27:59.631Z",
       "fecha_fin": "2023-04-27T01:27:59.631Z"
     },
@@ -75,6 +75,13 @@
       "courseId": 2,
       "dateInscription": "2023-06-04T21:33:34.980Z",
       "id": 5
+    },
+    {
+      "subjectId": 1,
+      "studentId": 1,
+      "courseId": 1,
+      "dateInscription": "2023-06-06T01:59:55.725Z",
+      "id": 6
     }
   ],
   "students": [
@@ -103,10 +110,10 @@
       "fecha_nacimiento": "1993-09-03T00:00:00.000Z"
     },
     {
-      "nombre": "Carlos",
-      "apellido": "Gardel",
-      "fecha_nacimiento": "2023-06-22T03:00:00.000Z",
-      "id": 5
+      "nombre": "Pepe",
+      "apellido": "Hernandez",
+      "fecha_nacimiento": "2023-06-14T03:00:00.000Z",
+      "id": 8
     }
   ]
 }

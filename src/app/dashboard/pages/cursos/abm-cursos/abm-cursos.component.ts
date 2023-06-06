@@ -12,7 +12,7 @@ import { Subject } from '../../subjects/models';
 })
 export class AbmCursosComponent {
 
-  cursos: CursoWithSubject[] = [];
+  subjects: Subject[] = [];
   
   nombreControl = new FormControl('', [Validators.required]);
   fechaInicioControl = new FormControl('', [Validators.required]);
@@ -33,7 +33,6 @@ export class AbmCursosComponent {
       const cursoParaEditar = data.cursoWithSubject;
       const subjectName = cursoParaEditar.subject.nombre;
       this.nombreControl.setValue(subjectName);
-      console.log(subjectName);
       this.fechaInicioControl.setValue(new Date(cursoParaEditar.fecha_inicio).toISOString());
       this.fechaFinControl.setValue(new Date(cursoParaEditar.fecha_fin).toISOString());
     }
@@ -44,15 +43,15 @@ export class AbmCursosComponent {
   }
 
   getSubjects() {
-    this.cursosService.obtenerCursosWithSubject().subscribe(subjects => {
-      this.cursos = subjects;
+    this.cursosService.obtenerSubjects().subscribe(subjects => {
+    this.subjects = subjects;
     });
-  }
+   }
+   
 
   guardar(): void {
     if (this.cursoForm.valid) {
       this.dialogRef.close(this.cursoForm.value)
-      console.log(this.cursoForm.value);
     } else {
       this.cursoForm.markAllAsTouched();
     }

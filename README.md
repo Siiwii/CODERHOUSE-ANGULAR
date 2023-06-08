@@ -1,3 +1,15 @@
+# Proyecto Final Juan Cruz Rodriguez
+
+Para poder loggearse como admin:
+
+Usuario: siwi@mail.com
+Contraseña: 123456
+
+Para poder loggearse como estudiante:
+
+Usuario: juan@email.com
+Contraseña: 123456
+
 # CoderHouseAngularJCR
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.

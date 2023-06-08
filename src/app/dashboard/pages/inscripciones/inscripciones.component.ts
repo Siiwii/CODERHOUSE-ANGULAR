@@ -9,6 +9,7 @@ import { InscripcionesActions } from './store/inscripciones.actions';
 import { InscripcionesService } from './services/inscripciones.service';
 import { InscripcionesDialogComponent } from './inscripciones-dialog/inscripciones-dialog.component';
 import { MatSort } from '@angular/material/sort';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-inscripciones',
@@ -29,20 +30,31 @@ export class InscripcionesComponent implements OnInit, AfterViewInit {
   constructor(
     private inscripcionesService: InscripcionesService,
     private matDialog: MatDialog,
-    private store: Store
+    private store: Store,
+    private authService: AuthService
   ) {
     this.state$ = this.store.select(selectInscripcionesState);
     this.dataSource = new MatTableDataSource();
     this.sort = new MatSort();
   }
 
-
+  isAdmin = false;
+  
   @ViewChild(MatSort) sort: MatSort;
   
   ngOnInit(): void {
     this.store.dispatch(InscripcionesActions.loadInscripciones());
     this.state$.subscribe((state) => {
       this.dataSource.data = state.inscripciones;
+
+      this.authService.getUserRole().subscribe(role => {
+        console.log('User role:', role);
+        if (role === 'admin') {
+          this.displayedColumns = ['id', 'nombre', 'curso', 'fecha_inscripcion', 'eliminar'];
+        } else {
+          this.displayedColumns = ['id', 'nombre', 'curso', 'fecha_inscripcion'];
+        }
+      });
     });
   }
 

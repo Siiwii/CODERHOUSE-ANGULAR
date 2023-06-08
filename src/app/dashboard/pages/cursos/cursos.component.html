@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="m-3">
-        <button (click)="abrirABMCursos()" mat-raised-button color="warn" mat-flat-button>
+        <button (click)="abrirABMCursos()" *ngIf="isAdmin" mat-raised-button color="warn" mat-flat-button>
             <mat-icon>add</mat-icon>
             Agregar Curso
         </button>

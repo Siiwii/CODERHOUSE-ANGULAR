@@ -1,6 +1,4 @@
 <mat-drawer-container class="example-container" autosize>
-
-    <!-- SIDEBAR -->
     <mat-drawer #drawer class="example-sidenav" mode="side">
 
         <mat-nav-list>
@@ -22,7 +20,7 @@
         <div class="d-flex w-100 justify-content-between align-items-center">
             <div><span>Administración de Cursos</span></div>
             <div>
-                <h4>Bienvenido, {{ (authUser$ | async)?.nombre }}</h4>
+                <h4 class="user">Bienvenido, {{ (authUser$ | async)?.nombre }}</h4>
             </div>
         </div>
     </mat-toolbar>

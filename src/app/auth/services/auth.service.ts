@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { Usuario } from '../../core/models';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -84,5 +84,12 @@ export class AuthService {
           return of(false);
         })
       );
+  }
+
+  getUserRole(): Observable<string | null> {
+    return this.obtenerUsuarioAutenticado().pipe(
+      tap(user => console.log('User role:', user?.role)),
+      map(user => user?.role || null)
+    );
   }
 }

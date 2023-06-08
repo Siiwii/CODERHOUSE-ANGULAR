@@ -78,9 +78,9 @@
     },
     {
       "subjectId": 1,
-      "studentId": 1,
+      "studentId": 7,
       "courseId": 1,
-      "dateInscription": "2023-06-06T01:59:55.725Z",
+      "dateInscription": "2023-06-07T23:09:36.873Z",
       "id": 6
     }
   ],
@@ -111,7 +111,7 @@
     },
     {
       "nombre": "Pepe",
-      "apellido": "Hernandez",
+      "apellido": "Gonzalez",
       "fecha_nacimiento": "2023-06-14T03:00:00.000Z",
       "id": 8
     }

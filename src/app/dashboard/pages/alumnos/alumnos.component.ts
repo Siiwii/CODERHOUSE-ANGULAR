@@ -7,6 +7,7 @@ import { EstudiantesService } from 'src/app/dashboard/pages/alumnos/services/est
 import { DatePipe } from '@angular/common';
 import { Estudiante } from './models';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-alumnos',
@@ -21,7 +22,8 @@ export class AlumnosComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private matDialog: MatDialog,
     private estudiantesService: EstudiantesService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private authService: AuthService
   ) {
     this.sort = new MatSort();
   }
@@ -30,13 +32,26 @@ export class AlumnosComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
+  isAdmin = false;
+
   ngOnInit(): void {
-    this.studentsSubscription = this.estudiantesService.getStudents().subscribe({
-      next: (estudiantes) => {
-        this.dataSource.data = estudiantes;
-      }
-    })
-  }
+  this.studentsSubscription = this.estudiantesService.getStudents().subscribe({
+    next: (estudiantes) => {
+      this.dataSource.data = estudiantes;
+
+      this.authService.getUserRole().subscribe(role => {
+        console.log('User role:', role);
+        this.isAdmin = role === 'admin';
+        if (this.isAdmin) {
+          this.displayedColumns = ['id', 'nombreCompleto', 'fecha_nacimiento', 'opciones'];
+        } else {
+          this.displayedColumns = ['id', 'nombreCompleto', 'fecha_nacimiento'];
+        }
+      });
+    }
+  });
+}
+
 
   ngOnDestroy(): void {
     this.studentsSubscription?.unsubscribe();
@@ -45,6 +60,8 @@ export class AlumnosComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
+
+  
 
   applyFilter(ev: Event): void {
     const inputValue = (ev.target as HTMLInputElement).value;

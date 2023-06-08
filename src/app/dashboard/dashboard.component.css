@@ -12,4 +12,8 @@
 
 .example-spacer {
     flex: 1 1 auto;
-  }
+}
+
+.user {
+    margin: 1rem;
+}

@@ -7,6 +7,7 @@ import { CursosService } from 'src/app/dashboard/pages/cursos/services/cursos.se
 import { Curso, CursoWithSubject } from './models';
 import { DatePipe } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-cursos',
@@ -29,7 +30,8 @@ export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private matDialog: MatDialog,
     private cursosService: CursosService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private authService: AuthService
   ) {
     this.sort = new MatSort();
   }
@@ -38,19 +40,30 @@ export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.subscribeToCursosWithSubject();
   }
-
+  
+  isAdmin = false;
+  
   private subscribeToCursosWithSubject(): void {
     this.cursosWithSubjectSuscription = this.cursosService.obtenerCursosWithSubject().subscribe({
       next: (cursos) => {
         this.dataSource.data = cursos;
+        
+        this.authService.getUserRole().subscribe(role => {
+          console.log('User role:', role);
+          this.isAdmin = role === 'admin';
+          if (this.isAdmin) {
+            this.displayedColumns = ['id', 'nombre', 'fecha_inicio', 'fecha_fin', 'opciones'];
+          } else {
+            this.displayedColumns = ['id', 'nombre', 'fecha_inicio', 'fecha_fin'];
+          }
+        });
       }
     })
   }
-
-
+  
+  
   ngOnDestroy(): void {
     this.cursosWithSubjectSuscription?.unsubscribe();
-
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -63,6 +76,7 @@ export class CursosComponent implements OnInit, OnDestroy, AfterViewInit {
     const inputValue = (ev.target as HTMLInputElement).value;
     this.dataSource.filter = inputValue.trim().toLowerCase();
   }
+
 
   abrirABMCursos(): void {
     const dialog = this.matDialog.open(AbmCursosComponent);
